@@ -21,21 +21,30 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/api/ask-ai").permitAll()
-                            .requestMatchers("/api/test").permitAll()
-                            .requestMatchers("/", "/error", "/login", "/user", "/api/auth-status",
-                                    "/oauth2/authorization/**", "/login/oauth2/code/**").permitAll()
-                            .anyRequest().authenticated();
-                })
+                .authorizeHttpRequests(auth -> auth
+                .requestMatchers(
+                        "/api/ask-ai/**",
+                        "/api/recipe-generator/**",
+                        "/",
+                        "/error",
+                        "/login",
+                        "/oauth2/authorization/**",
+                        "/login/oauth2/code/**",
+                        "/api/auth-status"
+                ).permitAll()
+                .anyRequest().authenticated()
+                )
                 .oauth2Login(oauth2 -> oauth2
                 .loginPage("/login")
-                .defaultSuccessUrl("http://localhost:3000/search", true))
+                .defaultSuccessUrl("http://localhost:3000/search", true)
+                )
                 .logout(logout -> logout
+                .logoutUrl("/api/logout")
                 .logoutSuccessUrl("http://localhost:3000/")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
-                .permitAll());
+                .permitAll()
+                );
 
         return http.build();
     }
