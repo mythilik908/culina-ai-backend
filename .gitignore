@@ -41,3 +41,7 @@ application-prod.properties
 **/application-local.yml
 **/application-dev.yml
 **/application-prod.yml
+
+### Resources directory ###
+src/main/resources/
+target/classes/
