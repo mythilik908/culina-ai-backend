@@ -45,3 +45,4 @@ application-prod.properties
 ### Resources directory ###
 src/main/resources/
 target/classes/
+src/main/resources/
